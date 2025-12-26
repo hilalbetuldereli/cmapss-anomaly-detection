@@ -82,4 +82,5 @@ Hazır örnek dosyalarla hızlı demo yapılabilir
 
 ▶️ Çalıştırma
 pip install -r requirements.txt
+
 python src/app.py
