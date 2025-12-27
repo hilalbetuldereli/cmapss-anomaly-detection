@@ -130,62 +130,79 @@ gözlemleyebilmesi için Gradio tabanlı bir arayüz sunmaktadır.
 ├── requirements.txt
 └── README.md
 
-## 🛠️ Kurulum 
+```
+
+## 🛠️ Kurulum
 
 Projeyi çalıştırmadan önce Python ortamının hazırlanması ve gerekli
 bağımlılıkların yüklenmesi gerekmektedir.
 
-1️⃣ Depoyu Klonlayın
+### 1️⃣ Depoyu Klonlayın
 git clone https://github.com/hilalbetuldereli/cmapss-anomaly-detection.git
 cd cmapss-anomaly-detection
 
-2️⃣ Sanal Ortam Oluşturun (Önerilir)
+### 2️⃣ Sanal Ortam Oluşturun (Önerilir)
 python -m venv .venv
 source .venv/bin/activate   # macOS / Linux
 
-3️⃣ Gerekli Bağımlılıkları Yükleyin
+
+💡 Sanal ortam kullanımı, proje bağımlılıklarının sistem genelinden
+izole edilmesini sağlar ve olası sürüm çakışmalarını önler.
+
+### 3️⃣ Gerekli Bağımlılıkları Yükleyin
 pip install -r requirements.txt
 
-4️⃣ Veri Setini İndirin
+### 4️⃣ Veri Setini İndirin
 
 C-MAPSS veri setini indirmek ve uygun klasör yapısına yerleştirmek için:
-
+```bash
 python src/download_data.py
+```
 
+Bu adım sonunda data/ klasörü altında aşağıdaki dosyalar bulunmalıdır:
 
-Bu adım sonunda data/ klasörü altında train_FD001.txt ve
-test_FD001.txt dosyaları bulunmalıdır.
+train_FD001.txt
 
-▶️ Çalıştırma
-1️⃣ Modeli Eğitin
+test_FD001.txt
+
+## ▶️ Çalıştırma
+### 1️⃣ Modeli Eğitin
 
 Autoencoder modeli yalnızca erken yaşam evresi verileri kullanılarak
-eğitilir:
-
+eğitilir. Bu evre, motorların sağlıklı çalışma koşullarını temsil eder.
+```bash
 python src/train.py
-
+```
 
 Bu adım sonunda aşağıdaki dosyalar oluşturulur:
 
-models/autoencoder.h5
+models/autoencoder.h5 → Eğitilmiş autoencoder modeli
 
-models/scaler.pkl
+models/scaler.pkl → Min-Max normalizasyon modeli
 
-models/threshold.npy
+models/threshold.npy → Anomali eşiği (threshold)
 
-2️⃣ Offline Anomali Analizi
+### 2️⃣ Offline Anomali Analizi
 
-Eğitilen model ile test verisi üzerinde anomali analizi yapmak ve grafik
-üretmek için:
-
+Eğitilen model ile veri seti üzerinde anomali analizi yapmak ve
+Reconstruction Error grafiğini üretmek için:
+```bash
 python src/anomaly.py
+```
 
-3️⃣ Gradio Arayüzünü Başlatın
+Bu betik:
 
-Etkileşimli arayüz üzerinden yaşam evrelerine göre anomali analizi yapmak
-için:
+Reconstruction Error değerlerini hesaplar
 
+Anomali eşik çizgisini gösterir
+
+Erken, orta ve geç yaşam evrelerini görsel olarak analiz eder
+
+### 3️⃣ Gradio Arayüzünü Başlatın
+
+Etkileşimli arayüz üzerinden yaşam evrelerine göre anomali analizi yapmak için:
+```bash
 python src/app.py
-
+```
 
 Terminalde verilen bağlantıyı tarayıcıda açarak uygulamayı kullanabilirsiniz.
